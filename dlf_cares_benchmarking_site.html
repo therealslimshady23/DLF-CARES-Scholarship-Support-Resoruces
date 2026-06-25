@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DLF CARES - School Scholarship Competitor Benchmarking Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a3e;
+            --primary-dark: #0f0f25;
+            --accent: #ffc500;
+            --accent-light: #ffe066;
+            --cyan: #00b8d4;
+            --red: #e74c3c;
+            --green: #27ae60;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-dark: #2c3e50;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, #1a1a4f 100%);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 62, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 184, 212, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 197, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            animation: slideInLeft 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            animation: slideInLeft 0.8s ease-out 0.4s backwards;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 197, 0, 0.15);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-card .label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .hero-graphic {
+            position: relative;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .hero-graphic svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            33% {
+                transform: translateY(20px) translateX(10px);
+            }
+            66% {
+                transform: translateY(-20px) translateX(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        section.alt-bg {
+            background: linear-gradient(135deg, var(--gray-light) 0%, #ffffff 100%);
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        section.alt-bg h2 {
+            color: var(--primary);
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--cyan));
+            border-radius: 2px;
+        }
+
+        /* Why Section */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            animation: fadeIn 0.6s ease-out both;
+        }
+
+        .why-card:nth-child(1) { animation-delay: 0.1s; }
+        .why-card:nth-child(2) { animation-delay: 0.2s; }
+        .why-card:nth-child(3) { animation-delay: 0.3s; }
+        .why-card:nth-child(4) { animation-delay: 0.4s; }
+        .why-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .why-card:hover {
+            background: rgba(255, 197, 0, 0.15);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 197, 0, 0.1);
+        }
+
+        .why-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .why-card h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .why-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* Programs Section */
+        .programs-wrapper {
+            margin-top: 3rem;
+        }
+
+        .program-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .program-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            animation: fadeIn 0.6s ease-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .program-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2a2a5e 100%);
+            color: var(--white);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 197, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .program-header h3 {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .program-header .organization {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .program-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .program-body {
+            padding: 1.5rem;
+        }
+
+        .program-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .program-detail:last-child {
+            border-bottom: none;
+        }
+
+        .program-detail-label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .program-detail-value {
+            text-align: right;
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        .program-detail-value .check {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .program-detail-value .cross {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .program-gap {
+            background: #fff3cd;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .expand-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .expand-btn:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, #ffb300 100%);
+            color: var(--primary);
+        }
+
+        .program-details-expanded {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .program-details-expanded.show {
+            max-height: 500px;
+        }
+
+        /* Comparison Table */
+        .comparison-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, #2a2a5e 100%);
+            color: var(--white);
+        }
+
+        .comparison-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(255, 197, 0, 0.05);
+        }
+
+        .comparison-table tbody tr:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .comparison-table .program-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .comparison-table .check::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        .comparison-table .cross::before {
+            content: '✗';
+            color: var(--red);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* Recommendations */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-light) 100%);
+            border: 2px solid transparent;
+            padding: 2rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--cyan));
+        }
+
+        .recommendation-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 197, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .recommendation-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .recommendation-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .recommendation-card p {
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-action {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.7rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* Impact Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, var(--accent) 0%, #ffb300 100%);
+            color: var(--primary);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 197, 0, 0.2);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .metric-box .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-box .label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent), var(--cyan));
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            margin-right: 52%;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+            margin-left: 52%;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 0;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-content .year {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 197, 0, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 197, 0, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+
+            .timeline-item:nth-child(odd) {
+                text-align: left;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <span style="color: var(--white);">DLF</span>
+                <span style="color: var(--accent);">CARES</span>
+            </a>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#why">Why It Matters</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#comparison">Comparison</a></li>
+                <li><a href="#recommendations">Recommendations</a></li>
+                <li><a href="#milestones">Impact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>School Scholarship <span class="highlight">Competitor Benchmarking Analysis</span></h1>
+                    <p>Comparing school-level CSR scholarship programs across India and identifying opportunities to strengthen DLF CARES' impact in underserved communities.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="number">52,000+</span>
+                            <span class="label">Beneficiaries Reached</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="number">21</span>
+                            <span class="label">States Covered</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="number">4,247</span>
+                            <span class="label">Active Scholars</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="number">10</span>
+                            <span class="label">Programs Analyzed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-graphic">
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="200" cy="200" r="150" fill="rgba(255, 197, 0, 0.1)" stroke="url(#grad1)" stroke-width="2"/>
+                        <circle cx="200" cy="200" r="120" fill="none" stroke="url(#grad2)" stroke-width="2" opacity="0.5"/>
+                        <circle cx="200" cy="200" r="90" fill="none" stroke="url(#grad1)" stroke-width="2" opacity="0.3"/>
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ffc500;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#00b8d4;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00b8d4;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ffc500;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(200, 200)">
+                            <circle r="30" fill="var(--accent)" opacity="0.8"/>
+                            <circle r="20" fill="rgba(255, 255, 255, 0.3)"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Matters -->
+    <section id="why">
+        <div class="container">
+            <h2>Why School-Level Scholarships Matter</h2>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <span class="icon">📊</span>
+                    <h3>High Dropout Rates</h3>
+                    <p>India's secondary school dropout rate averages 14–39% in high-risk states like Bihar, MP, Jharkhand, and Chhattisgarh.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon">👶</span>
+                    <h3>Early Intervention</h3>
+                    <p>DLF CARES' Class 1 entry point is the earliest among peers—intervening before dropout risk even forms.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon">💰</span>
+                    <h3>Financial Barriers</h3>
+                    <p>Financial constraints at Class 1–10 level are the primary structural driver of dropout across underserved communities.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon">🎓</span>
+                    <h3>Formative Years</h3>
+                    <p>School-level intervention—especially before Class 5—has the highest long-term impact on educational and career outcomes.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon">🌍</span>
+                    <h3>Inclusive Approach</h3>
+                    <p>DLF CARES is one of very few programmes starting at Class 1, open to all genders, with no caste, plant, or community restriction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="alt-bg" id="programs">
+        <div class="container">
+            <h2>Competitor Programs Analysis</h2>
+            
+            <div class="program-filter">
+                <button class="filter-btn active" onclick="filterPrograms('all')">All Programs</button>
+                <button class="filter-btn" onclick="filterPrograms('corporate')">Corporate</button>
+                <button class="filter-btn" onclick="filterPrograms('ngo')">NGO/Foundation</button>
+                <button class="filter-btn" onclick="filterPrograms('government')">Government</button>
+            </div>
+
+            <div class="programs-grid" id="programsGrid">
+                <!-- Programs will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table Section -->
+    <section id="comparison">
+        <div class="container">
+            <h2>Head-to-Head Comparison</h2>
+            
+            <div class="comparison-container">
+                <table class="comparison-table" id="comparisonTable">
+                    <!-- Table will be dynamically inserted here -->
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Metrics -->
+    <section class="alt-bg">
+        <div class="container">
+            <h2>DLF CARES Impact Overview</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <span class="number">52,000+</span>
+                    <span class="label">Beneficiaries Reached</span>
+                </div>
+                <div class="metric-box">
+                    <span class="number">20,000+</span>
+                    <span class="label">Families Benefitted</span>
+                </div>
+                <div class="metric-box">
+                    <span class="number">40,000+</span>
+                    <span class="label">Career Counselling Sessions</span>
+                </div>
+                <div class="metric-box">
+                    <span class="number">10,000+</span>
+                    <span class="label">Teachers Trained</span>
+                </div>
+            </div>
+
+            <div class="timeline mt-3">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="year">2011</div>
+                        <p>DLF Raghavendra Scholarship launched</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="year">2014</div>
+                        <p>Scholar conclave held to foster community and peer learning</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="year">2017</div>
+                        <p>Scholarship Guidance Cell launched for structured support</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="year">2023</div>
+                        <p>Release of KUTUMB—comprehensive digital support platform</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section id="recommendations">
+        <div class="container">
+            <h2>What DLF CARES Can Adopt</h2>
+            <p style="text-align: center; color: rgba(255, 255, 255, 0.8); max-width: 800px; margin: 0 auto 2rem; font-size: 1.05rem;">
+                High-priority recommendations to strengthen impact and deliver greater value to communities we serve
+            </p>
+            
+            <div class="recommendations-grid">
+                <div class="recommendation-card">
+                    <span class="icon">💵</span>
+                    <h3>Direct Family Stipend</h3>
+                    <p><strong>Inspired by: Coal India Scholarship</strong></p>
+                    <p>Monthly household stipend of ₹300–500 for active scholars' families to cover non-fee expenses like meals, stationery, and transport.</p>
+                    <span class="recommendation-action">Priority: HIGH</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">👥</span>
+                    <h3>Dedicated Caregiver per Cohort</h3>
+                    <p><strong>Inspired by: Mphasis VIDYA</strong></p>
+                    <p>Assign a trained mentor-guardian to each cohort of 20–25 scholars for continuity of pastoral care and early identification of at-risk students.</p>
+                    <span class="recommendation-action">Priority: HIGH</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">🛠️</span>
+                    <h3>After-School Vocational Learning</h3>
+                    <p><strong>Inspired by: JSW Umeed</strong></p>
+                    <p>Introduce skill-based learning modules from Class 6 in partnership with platforms like iDream or NSDC covering digital literacy, financial literacy, and communication.</p>
+                    <span class="recommendation-action">Priority: HIGH</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">🌐</span>
+                    <h3>Open Online Application Portal</h3>
+                    <p><strong>Inspired by: HDFC Parivartan</strong></p>
+                    <p>Launch a public-facing digital application portal open to all schools, not just partner schools. This widens the eligible student pipeline significantly.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">🔄</span>
+                    <h3>Multiple Application Cycles</h3>
+                    <p><strong>Inspired by: HDFC Parivartan & Naandi Prerana</strong></p>
+                    <p>Introduce a mid-year application window to capture students who miss the primary cycle, ensuring no deserving student is left behind.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">🧒</span>
+                    <h3>Early Childhood Integration</h3>
+                    <p><strong>Inspired by: UltraTech Cement CSR</strong></p>
+                    <p>Partner with anganwadis near partner schools to introduce a pre-Class 1 readiness programme, addressing school-readiness before dropout risk forms.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">🚌</span>
+                    <h3>Transport Support</h3>
+                    <p><strong>Inspired by: Vedanta DAV Scholarship</strong></p>
+                    <p>Introduce a transport allowance or school bus tie-up for scholars commuting over 3km. This reduces absenteeism caused by travel barriers.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">👨‍👩‍👧</span>
+                    <h3>Parent Engagement Workshops</h3>
+                    <p><strong>Research-backed Initiative</strong></p>
+                    <p>Conduct quarterly parent workshops at partner schools. Parental involvement directly correlates with reduced dropout rates and improved home learning support.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="icon">👩‍🏫</span>
+                    <h3>Community Tutoring Model</h3>
+                    <p><strong>Inspired by: Nanhi Kali</strong></p>
+                    <p>Deploy trained local women from scholar neighbourhoods as community tutors to provide after-school academic support within walking distance.</p>
+                    <span class="recommendation-action">Priority: MEDIUM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section class="alt-bg">
+        <div class="container">
+            <h2>Key Differentiators of DLF CARES</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Entry Point</h3>
+                    <p>Only program beginning at Class 1, intervening before dropout risk sets in. Nanhi Kali starts at Grade 6; Sitaram Jindal at Class 11.</p>
+                </div>
+
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Support Depth</h3>
+                    <p>Beyond fee coverage, provides remedial classes, mental health counselling, ACER-based assessments, and career guidance. No peer program offers this full stack at school level.</p>
+                </div>
+
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Inclusivity</h3>
+                    <p>Supports all genders from the outset. Nanhi Kali is exclusively girls-focused. Sitaram Jindal is open to all but begins too late.</p>
+                </div>
+
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Continuity</h3>
+                    <p>Higher Education Initiative now follows scholars from Class 1 through undergraduate study—creating a rare end-to-end pipeline neither peer replicates.</p>
+                </div>
+
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Geographic Reach</h3>
+                    <p>Presence in 21 states with strong focus on highest dropout-risk regions. Most peer programs are concentrated in 3–5 states.</p>
+                </div>
+
+                <div style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✓ Scale Opportunity</h3>
+                    <p>With 4,247 active scholars across 21 states, DLF CARES has strong geographic presence with clear pathways to expand reach and increase cohort size.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section>
+        <div class="container">
+            <h2 style="color: var(--white);">Moving Forward</h2>
+            <p style="color: rgba(255, 255, 255, 0.9); max-width: 900px; margin: 2rem auto; text-align: center; font-size: 1.1rem; line-height: 1.8;">
+                DLF CARES has built one of the most comprehensive school scholarship models in India. These recommendations are not about fixing what is broken—they are about deepening what already works and extending its reach to students who currently fall outside the programme's net.
+            </p>
+            <p style="color: rgba(255, 255, 255, 0.9); max-width: 900px; margin: 2rem auto; text-align: center; font-size: 1.1rem; line-height: 1.8;">
+                By implementing these evidence-backed, school-level-specific improvements, DLF CARES can position itself as the definitive model for inclusive, holistic school-level CSR scholarships across India.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>DLF CARES</h4>
+                    <p>Nurturing lives through quality education, healthcare, and community development across India.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Programs</h4>
+                    <ul>
+                        <li><a href="#programs">School Scholarships</a></li>
+                        <li><a href="#programs">Healthcare Initiatives</a></li>
+                        <li><a href="#programs">Community Development</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#why">Impact Metrics</a></li>
+                        <li><a href="#recommendations">Recommendations</a></li>
+                        <li><a href="#comparison">Program Comparison</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>DLF Foundation<br>Delhi, India<br>support@dlfcares.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DLF Foundation. All rights reserved. | FY 2025–26 Competitive Analysis</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Program Data
+        const programs = [
+            {
+                name: "DLF CARES",
+                organization: "DLF Limited — CSR Arm",
+                type: "corporate",
+                entry: "Class 1",
+                gender: "All genders",
+                income: "₹4L",
+                fee: "Full ✓",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✓",
+                amount: "Full",
+                scope: "21 states",
+                gap: "None—DLF CARES is the benchmark",
+                highlights: [
+                    "Only program starting at Class 1",
+                    "Open to all genders",
+                    "Holistic support model includes counselling and career guidance",
+                    "Covers 21 states with no caste/community restriction"
+                ]
+            },
+            {
+                name: "HDFC Parivartan ECSS",
+                organization: "HDFC Bank — CSR",
+                type: "corporate",
+                entry: "Class 1 to 12",
+                gender: "All genders",
+                income: "₹2.5L",
+                fee: "Partial (₹75K–1L)",
+                uniform: "✗",
+                books: "✗",
+                stationery: "✗",
+                amount: "₹15–18K",
+                scope: "Pan-India",
+                gap: "Only tuition fee partially covered—no uniform, books, stationery, counselling, or remedial support",
+                highlights: [
+                    "Open direct online application",
+                    "Multiple application cycles per year",
+                    "Any student from any school eligible"
+                ]
+            },
+            {
+                name: "Vedanta DAV Scholarship",
+                organization: "Vedanta Limited — CSR",
+                type: "corporate",
+                entry: "Class 1 onwards",
+                gender: "All genders",
+                income: "₹2.5L",
+                fee: "Full ✓",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✓ (Transport ✓)",
+                amount: "Full",
+                scope: "Vedanta plant locations only",
+                gap: "Restricted to employee families near plant locations—Only placed in DAV schools",
+                highlights: [
+                    "Transport covered (DLF does not cover commute)",
+                    "Dedicated school infrastructure",
+                    "Full fee, uniform, books covered"
+                ]
+            },
+            {
+                name: "ArcelorMittal Nippon Beti Padhao",
+                organization: "ArcelorMittal Nippon Steel India",
+                type: "corporate",
+                entry: "Class 8 onwards",
+                gender: "Girls only",
+                income: "₹5L",
+                fee: "Partial (₹10–15K/year)",
+                uniform: "✗",
+                books: "✗",
+                stationery: "✗",
+                amount: "₹10–15K",
+                scope: "23 states",
+                gap: "Girls only, starts at Class 8 (misses Classes 1–7), no holistic support",
+                highlights: [
+                    "Higher income ceiling than DLF (₹5L vs ₹4L)",
+                    "Pan-India focus with geographic exceptions"
+                ]
+            },
+            {
+                name: "Tata Steel Jyoti Fellowship",
+                organization: "Tata Steel Foundation",
+                type: "corporate",
+                entry: "Class 7 onwards",
+                gender: "SC/ST communities only",
+                income: "BPL",
+                fee: "Partial (~₹26K/year)",
+                uniform: "✗",
+                books: "✓",
+                stationery: "✗",
+                amount: "~₹6K",
+                scope: "Pan India",
+                gap: "Caste-restricted (SC/ST only), starts at Class 7, only 7 students per year",
+                highlights: [
+                    "50+ year legacy—longest-running program",
+                    "Tablets for top 7 performers"
+                ]
+            },
+            {
+                name: "Mphasis VIDYA",
+                organization: "Mphasis with SOS Children's Villages",
+                type: "ngo",
+                entry: "School level (residential)",
+                gender: "All genders",
+                income: "BPL",
+                fee: "Full ✓",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✗ (Transport ✓)",
+                amount: "Full",
+                scope: "Selected villages",
+                gap: "2000/3000 seats exclusively for orphaned/abandoned children—not accessible to broader underserved population",
+                highlights: [
+                    "Full-time caregiver per scholar",
+                    "Continuous daily emotional support",
+                    "Residential model"
+                ]
+            },
+            {
+                name: "Naandi Prerana",
+                organization: "Naandi Foundation (NGO)",
+                type: "ngo",
+                entry: "Class 6 onwards",
+                gender: "Girls primarily",
+                income: "BPL",
+                fee: "Partial",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✓",
+                amount: "Variable",
+                scope: "AP, TG, Rajasthan",
+                gap: "Girls-primary focus, starts at Class 6, no counselling or career guidance",
+                highlights: [
+                    "NGO-led delivery—more agile and community-trusted",
+                    "Multiple application cycles per year"
+                ]
+            },
+            {
+                name: "UltraTech Cement CSR",
+                organization: "UltraTech Community Welfare Foundation",
+                type: "corporate",
+                entry: "Age 3+",
+                gender: "All genders",
+                income: "BPL",
+                fee: "Full ✓",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✓",
+                amount: "Full",
+                scope: "Within 500km of plants (19 states)",
+                gap: "Restricted to plant-proximity communities—no counselling, career guidance, or psychometric support",
+                highlights: [
+                    "Anganwadi integration for early childhood",
+                    "Youngest entry point after DLF",
+                    "Multiple application cycles"
+                ]
+            },
+            {
+                name: "JSW Umeed",
+                organization: "JSW Foundation",
+                type: "corporate",
+                entry: "Class 9",
+                gender: "All genders",
+                income: "₹7.5L",
+                fee: "Partial (₹10–15K/year)",
+                uniform: "✗",
+                books: "✓",
+                stationery: "✗",
+                amount: "₹10–15K",
+                scope: "East and South India",
+                gap: "Starts at Class 9 (misses Classes 1–8), high income limit restricts entry",
+                highlights: [
+                    "JSW ecosystem includes skilling and livelihood",
+                    "Strong emphasis on vocational training",
+                    "Broader family impact"
+                ]
+            },
+            {
+                name: "Coal India Scholarship",
+                organization: "Coal India Limited (Government PSU)",
+                type: "government",
+                entry: "Class 5 onwards",
+                gender: "All genders",
+                income: "₹3L",
+                fee: "Full ✓",
+                uniform: "✓",
+                books: "✓",
+                stationery: "✓",
+                amount: "₹5,000–15,000/month",
+                scope: "Pan India (coal belt)",
+                gap: "Targeted to coal belt regions—Government red tape causes long processing",
+                highlights: [
+                    "Monthly stipend directly to families",
+                    "Immediate financial relief",
+                    "PSU backing—guaranteed continuity"
+                ]
+            }
+        ];
+
+        // Initialize Programs Grid
+        function initializePrograms() {
+            const grid = document.getElementById('programsGrid');
+            grid.innerHTML = programs.map((prog, idx) => `
+                <div class="program-card" data-type="${prog.type}" style="animation-delay: ${idx * 0.05}s;">
+                    <div class="program-header">
+                        <h3>${prog.name}</h3>
+                        <p class="organization">${prog.organization}</p>
+                        <span class="program-badge">${prog.type.toUpperCase()}</span>
+                    </div>
+                    <div class="program-body">
+                        <div class="program-detail">
+                            <span class="program-detail-label">Entry Point</span>
+                            <span class="program-detail-value">${prog.entry}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Gender</span>
+                            <span class="program-detail-value">${prog.gender}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Income Limit</span>
+                            <span class="program-detail-value">${prog.income}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Fee Coverage</span>
+                            <span class="program-detail-value">${prog.fee}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Uniform</span>
+                            <span class="program-detail-value">${prog.uniform}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Books</span>
+                            <span class="program-detail-value">${prog.books}</span>
+                        </div>
+                        <div class="program-detail">
+                            <span class="program-detail-label">Annual Amount</span>
+                            <span class="program-detail-value">${prog.amount}</span>
+                        </div>
+                        ${prog.gap ? `<div class="program-gap"><strong>Key Gap:</strong> ${prog.gap}</div>` : ''}
+                        <button class="expand-btn" onclick="toggleExpand(this)">View Highlights</button>
+                        <div class="program-details-expanded">
+                            <ul style="margin: 1rem 0 0 0; padding-left: 1.5rem;">
+                                ${prog.highlights.map(h => `<li style="color: var(--primary); margin-bottom: 0.5rem;">${h}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Programs
+        function filterPrograms(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.program-card');
+            cards.forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Toggle Expand
+        function toggleExpand(btn) {
+            const expanded = btn.nextElementSibling;
+            expanded.classList.toggle('show');
+            btn.textContent = expanded.classList.contains('show') ? 'Hide Highlights' : 'View Highlights';
+        }
+
+        // Initialize Comparison Table
+        function initializeComparison() {
+            const table = document.getElementById('comparisonTable');
+            const headers = ['Program', 'Entry', 'Gender', 'Income Limit', 'Fee', 'Uniform', 'Books', 'Stationery', 'Amount', 'Scope'];
+            
+            let html = '<thead><tr>';
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += '</tr></thead><tbody>';
+
+            programs.forEach(prog => {
+                html += `<tr>
+                    <td class="program-name">${prog.name}</td>
+                    <td>${prog.entry}</td>
+                    <td>${prog.gender}</td>
+                    <td>${prog.income}</td>
+                    <td>${prog.fee.includes('✓') ? '<span class="check">Full</span>' : '<span class="cross">Partial</span>'}</td>
+                    <td>${prog.uniform === '✓' ? '<span class="check">Yes</span>' : '<span class="cross">No</span>'}</td>
+                    <td>${prog.books === '✓' ? '<span class="check">Yes</span>' : '<span class="cross">No</span>'}</td>
+                    <td>${prog.stationery === '✓' ? '<span class="check">Yes</span>' : '<span class="cross">No</span>'}</td>
+                    <td>${prog.amount}</td>
+                    <td>${prog.scope}</td>
+                </tr>`;
+            });
+            html += '</tbody>';
+            table.innerHTML = html;
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePrograms();
+            initializeComparison();
+        });
+    </script>
+</body>
+</html>
